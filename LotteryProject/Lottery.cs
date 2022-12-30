@@ -53,9 +53,9 @@ namespace LotteryProject
 
                 //Finding how many matches there are
                 int matches = 0;
-                for (int j = 0; j < 6; j++)
+                foreach (int userElement in userNums)
                 {
-                    if (userNums[j] == lottoNums[j])
+                    if (lottoNums.Contains(userElement))
                         matches++;
                 }
                 Console.WriteLine($"\nYou matched with {matches} numbers!");
