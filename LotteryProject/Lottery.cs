@@ -11,15 +11,18 @@ namespace LotteryProject
         //public List<int> userNumbers;
         public static void simulator()
         {
-            int attempts = 0;
-            int totalCost = 0;
-            int winnings = 0;
+            //int attempts = 0;
+            //int totalCost = 0;
+            //int winnings = 0;
             List<int> lottoNums = new List<int>();
-            Random num = new Random();
-
-            for(int i = 0; i < 6; i++)
+            var num = new Random();
+            int lotteryNumber;
+            for (int i = 0; i < 6; i++)
             {
-                lottoNums.Add(num.Next(1,60)); //sort out duplicate possibility
+                do {
+                     lotteryNumber = num.Next(1, 60);
+                   } while (lottoNums.Contains(lotteryNumber)); //Unique numbers only added
+                lottoNums.Add(lotteryNumber);
             }
             lottoNums.Sort();
 
