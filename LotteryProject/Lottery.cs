@@ -16,19 +16,56 @@ namespace LotteryProject
             //int winnings = 0;
             List<int> lottoNums = new List<int>();
             var num = new Random();
-            int lotteryNumber;
-            for (int i = 0; i < 6; i++)
+            
+            //Getting user input
+            Console.WriteLine("Welcome to the National Lottery!\nPlease enter your 6 unique numbers from 1 to 59:");
+            List<int> userNums = new List<int>();
+            int a = 0;
+            while (a < 6)
             {
-                do {
-                     lotteryNumber = num.Next(1, 60);
-                   } while (lottoNums.Contains(lotteryNumber)); //Unique numbers only added
-                lottoNums.Add(lotteryNumber);
+                userNums.Add(int.Parse(Console.ReadLine()));
+                a++;
             }
-            lottoNums.Sort();
+            userNums.Sort();
+            Console.WriteLine("Your numbers are:");
+            foreach (int userNum in userNums)
+            {
+                Console.Write($"{userNum}|");
+            }
+            
+            //Generating lottery numbers
+            int lotteryNumber;
+            while (true)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    do
+                    {
+                        lotteryNumber = num.Next(1, 60);
+                    } while (lottoNums.Contains(lotteryNumber)); //Unique numbers only added
+                    lottoNums.Add(lotteryNumber);
+                }
+                lottoNums.Sort();
 
-            Console.Write("The National lottery numbers are: ");
-            foreach(int number in lottoNums)
-            Console.Write($"{number}|");
+                Console.Write("\nThe National lottery numbers are:\n");
+                foreach (int number in lottoNums)
+                    Console.Write($"{number}|");
+
+                //Finding how many matches there are
+                int matches = 0;
+                for (int j = 0; j < 6; j++)
+                {
+                    if (userNums[j] == lottoNums[j])
+                        matches++;
+                }
+                Console.WriteLine($"\nYou matched with {matches} numbers!");
+
+                if (matches != 6)
+                    lottoNums.Clear();
+                else
+                    break;
+            }
+           
         }
 
     }
