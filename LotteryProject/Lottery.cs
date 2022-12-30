@@ -11,8 +11,8 @@ namespace LotteryProject
         //public List<int> userNumbers;
         public static void simulator()
         {
-            //int attempts = 0;
-            //int totalCost = 0;
+           
+            int totalCost = 0;
             //int winnings = 0;
             List<int> lottoNums = new List<int>();
             var num = new Random();
@@ -35,6 +35,7 @@ namespace LotteryProject
             
             //Generating lottery numbers
             int lotteryNumber;
+            int attempts = 0;
             while (true)
             {
                 for (int i = 0; i < 6; i++)
@@ -61,9 +62,20 @@ namespace LotteryProject
                 Console.WriteLine($"\nYou matched with {matches} numbers!");
 
                 if (matches != 6)
-                    lottoNums.Clear();
+                {
+                    attempts += 1;
+                    totalCost += 2;
+                    Console.WriteLine($"Attempts: {attempts} | Cost of tickets {totalCost}");
+                    lottoNums.Clear(); 
+                }
                 else
+                {
+                    attempts += 1;
+                    totalCost += 2;
+                    Console.WriteLine($"Congratulations, you have won the lottery! It took {attempts} attempts to win.");
+                    Console.WriteLine($"You have spent £{totalCost} pounds on tickets.");
                     break;
+                }
             }
            
         }
