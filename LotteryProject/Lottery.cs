@@ -8,12 +8,10 @@ namespace LotteryProject
 {
     public class Lottery
     {
-        //public List<int> userNumbers;
         public static void simulator()
         {
-           
             int totalCost = 0;
-            //int winnings = 0;
+            int winnings = 0;
             List<int> lottoNums = new List<int>();
             var num = new Random();
             
@@ -60,18 +58,32 @@ namespace LotteryProject
                         matches++;
                 }
                 Console.WriteLine($"\nYou matched with {matches} numbers!");
-
+              
                 if (matches != 6)
                 {
+                    switch (matches)
+                    {
+                        case 3:
+                            winnings += 30;
+                            break;
+                        case 4:
+                            winnings += 140;
+                            break;
+                        case 5:
+                            winnings += 1750;
+                            break;
+                    }
                     attempts += 1;
                     totalCost += 2;
-                    Console.WriteLine($"Attempts: {attempts} | Cost of tickets {totalCost}");
-                    lottoNums.Clear(); 
+                    Console.WriteLine($"Attempts: {attempts} | Cost of tickets: £{totalCost} | Total winnings: £{winnings} | Profit: £{totalCost - winnings}");
+                    lottoNums.Clear();
                 }
+
                 else
                 {
                     attempts += 1;
                     totalCost += 2;
+                    winnings += 13000000;
                     Console.WriteLine($"Congratulations, you have won the lottery! It took {attempts} attempts to win.");
                     Console.WriteLine($"You have spent £{totalCost} pounds on tickets.");
                     break;
