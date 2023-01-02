@@ -12,66 +12,97 @@ namespace LotteryProject
         {
             int totalCost = 0;
             int winnings = 0;
-            List<int> lottoNums = new List<int>();
+            List<int> lotteryNums = new List<int>();
             var randNum = new Random();
+            bool luckyDip = false;
 
             //Getting user input
-            Console.WriteLine("Welcome to the National Lottery!\nPlease enter your 6 unique numbers from 1 to 59:");
+            Console.WriteLine("Welcome to the National Lottery!\nEnter 1 to pick your own numbers, enter 2 for lucky dip.");
             List<int> userNums = new List<int>();
-            int a = 0;
-            while (a < 6)
+            int luckyDipChoice = int.Parse(Console.ReadLine());
+            int validEntries = 0;
+            if (luckyDipChoice == 1)
             {
-                var numString = Console.ReadLine();
-                int num;
-                if (int.TryParse(numString, out num) && !userNums.Contains(num) && num > 0 && num < 60)
+                Console.WriteLine("Please enter your 6 unique numbers from 1 to 59:");
+                while (validEntries < 6)
                 {
-                    userNums.Add(num);
-                    a++;
+                    var numString = Console.ReadLine();
+                    int num;
+                    if (int.TryParse(numString, out num) && !userNums.Contains(num) && num > 0 && num < 60)
+                    {
+                        userNums.Add(num);
+                        validEntries++;
+                    }
+                    else if (userNums.Contains(num))
+                        Console.WriteLine("You have already entered that number, please choose a different one");
+                    else if (!int.TryParse(numString, out num))
+                        Console.WriteLine("Please enter a number!");
+                    else
+                        Console.WriteLine("The number entered needs to be in the range of 1 to 59");
                 }
-                else if (userNums.Contains(num))
-                    Console.WriteLine("You have already entered that number, please choose a different one");
-                else if (!int.TryParse(numString, out num))
-                    Console.WriteLine("Please enter a number!");
-                else
-                    Console.WriteLine("The number entered needs to be in the range of 1 to 59");
-            }
-            userNums.Sort();
+                userNums.Sort();
 
-            Console.WriteLine("Your numbers are:");
-            foreach (int userNum in userNums)
-            {
-                Console.Write($"{userNum}|");
+                Console.WriteLine("Your numbers are:");
+                foreach (int userNum in userNums)
+                {
+                    Console.Write($"{userNum}|");
+                }
             }
+            else
+                luckyDip = true;
 
             //Generating lottery numbers
-            int lotteryNumber;
+            int lotteryNum;
+            int luckyDipNum;
             int attempts = 0;
 
             while (true)
             {
+                if(luckyDip == true)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        do
+                        {
+                            luckyDipNum = randNum.Next(1, 60);
+                        } while (userNums.Contains(luckyDipNum));
+                        userNums.Add(luckyDipNum);
+                    }
+                    userNums.Sort();
+
+                    Console.WriteLine("Your numbers are:");
+                    foreach (int userNum in userNums)
+                    {
+                        Console.Write($"{userNum}|");
+                    }
+                }
+
                 for (int i = 0; i < 6; i++)
                 {
                     do
                     {
-                        lotteryNumber = randNum.Next(1, 60);
-                    } while (lottoNums.Contains(lotteryNumber)); //Unique numbers only added
-                    lottoNums.Add(lotteryNumber);
+                        lotteryNum = randNum.Next(1, 60);
+                    } while (lotteryNums.Contains(lotteryNum)); //Unique numbers only added
+                    lotteryNums.Add(lotteryNum);
                 }
-                lottoNums.Sort();
+                lotteryNums.Sort();
 
                 Console.Write("\nThe National lottery numbers are:\n");
-                foreach (int number in lottoNums)
+                foreach (int number in lotteryNums)
                     Console.Write($"{number}|");
 
                 //Finding how many matches there are
                 int matches = 0;
                 foreach (int userElement in userNums)
                 {
-                    if (lottoNums.Contains(userElement))
+                    if (lotteryNums.Contains(userElement))
                         matches++;
                 }
                 Console.WriteLine($"\nYou matched with {matches} numbers!");
-              
+
+                if (luckyDip == true)
+                    userNums.Clear();
+
                 if (matches != 6)
                 {
                     switch (matches)
@@ -89,16 +120,15 @@ namespace LotteryProject
                     attempts += 1;
                     totalCost += 2;
                     Console.WriteLine($"Attempts: {attempts} | Cost of tickets: £{totalCost} | Total winnings: £{winnings} | Profit: £{winnings - totalCost}");
-                    lottoNums.Clear();
+                    lotteryNums.Clear();
                 }
-
                 else
                 {
                     attempts += 1;
                     totalCost += 2;
                     winnings += 13000000;
                     Console.WriteLine($"Congratulations, you have won the lottery! It took {attempts} attempts to win.");
-                    Console.WriteLine($"You have spent £{totalCost} pounds on tickets.");
+                    Console.WriteLine($"You have spent £{totalCost} pounds on tickets and your profit/loss is £{winnings}.");
                     break;
                 }
             }
