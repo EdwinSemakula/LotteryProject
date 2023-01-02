@@ -36,6 +36,7 @@ namespace LotteryProject
                     Console.WriteLine("The number entered needs to be in the range of 1 to 59");
             }
             userNums.Sort();
+
             Console.WriteLine("Your numbers are:");
             foreach (int userNum in userNums)
             {
@@ -45,6 +46,7 @@ namespace LotteryProject
             //Generating lottery numbers
             int lotteryNumber;
             int attempts = 0;
+
             while (true)
             {
                 for (int i = 0; i < 6; i++)
@@ -86,7 +88,7 @@ namespace LotteryProject
                     }
                     attempts += 1;
                     totalCost += 2;
-                    Console.WriteLine($"Attempts: {attempts} | Cost of tickets: £{totalCost} | Total winnings: £{winnings} | Profit: £{totalCost - winnings}");
+                    Console.WriteLine($"Attempts: {attempts} | Cost of tickets: £{totalCost} | Total winnings: £{winnings} | Profit: £{winnings - totalCost}");
                     lottoNums.Clear();
                 }
 

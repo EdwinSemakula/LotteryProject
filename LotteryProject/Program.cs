@@ -10,8 +10,7 @@ namespace LotteryProject
     {
         static void Main(string[] args)
         {
-            
-            //Lottery.simulator();
+            Lottery.simulator();
         }
     }
 }
