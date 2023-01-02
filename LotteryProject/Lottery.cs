@@ -13,16 +13,27 @@ namespace LotteryProject
             int totalCost = 0;
             int winnings = 0;
             List<int> lottoNums = new List<int>();
-            var num = new Random();
-            
+            var randNum = new Random();
+
             //Getting user input
             Console.WriteLine("Welcome to the National Lottery!\nPlease enter your 6 unique numbers from 1 to 59:");
             List<int> userNums = new List<int>();
             int a = 0;
             while (a < 6)
             {
-                userNums.Add(int.Parse(Console.ReadLine()));
-                a++;
+                var numString = Console.ReadLine();
+                int num;
+                if (int.TryParse(numString, out num) && !userNums.Contains(num) && num > 0 && num < 60)
+                {
+                    userNums.Add(num);
+                    a++;
+                }
+                else if (userNums.Contains(num))
+                    Console.WriteLine("You have already entered that number, please choose a different one");
+                else if (!int.TryParse(numString, out num))
+                    Console.WriteLine("Please enter a number!");
+                else
+                    Console.WriteLine("The number entered needs to be in the range of 1 to 59");
             }
             userNums.Sort();
             Console.WriteLine("Your numbers are:");
@@ -30,7 +41,7 @@ namespace LotteryProject
             {
                 Console.Write($"{userNum}|");
             }
-            
+
             //Generating lottery numbers
             int lotteryNumber;
             int attempts = 0;
@@ -40,7 +51,7 @@ namespace LotteryProject
                 {
                     do
                     {
-                        lotteryNumber = num.Next(1, 60);
+                        lotteryNumber = randNum.Next(1, 60);
                     } while (lottoNums.Contains(lotteryNumber)); //Unique numbers only added
                     lottoNums.Add(lotteryNumber);
                 }
