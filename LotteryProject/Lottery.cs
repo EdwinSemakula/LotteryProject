@@ -54,6 +54,7 @@ namespace LotteryProject
             //Generating lottery numbers
             int lotteryNum;
             int luckyDipNum;
+            int bonusBall;
             int attempts = 0;
 
             while (true)
@@ -100,6 +101,22 @@ namespace LotteryProject
                 }
                 Console.WriteLine($"\nYou matched with {matches} numbers!");
 
+                if (matches == 5)
+                {
+                    winnings += 1750;
+                    bonusBall = randNum.Next(1, 60);
+                    while (lotteryNums.Contains(bonusBall))
+                    {
+                        bonusBall = randNum.Next(1, 60);
+                    }
+                    Console.WriteLine($"The bonus ball is {bonusBall}");
+                    if (userNums.Contains(bonusBall))
+                    {
+                        winnings += 998250; //taken away 1750 from 1 million
+                        Console.WriteLine("You matched with the bonus ball and have won £1m pounds!!!");
+                    }
+                }
+
                 if (luckyDip == true)
                     userNums.Clear();
 
@@ -112,9 +129,6 @@ namespace LotteryProject
                             break;
                         case 4:
                             winnings += 140;
-                            break;
-                        case 5:
-                            winnings += 1750;
                             break;
                     }
                     attempts += 1;
